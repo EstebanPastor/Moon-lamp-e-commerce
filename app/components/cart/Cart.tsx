@@ -3,8 +3,8 @@ import Image from "next/image";
 import { useCartStore } from "@/store/useCartStore";
 import formatPrice from "@/utils/formatPrice";
 import { totalPrice } from "@/utils/totalPrice";
-import DecrementButton from "../ui/drecement-decrement-buttons/DecrementButton";
-import IncrementButton from "../ui/drecement-decrement-buttons/IncrementButton";
+import DecrementButton from "../ui/drecement-increment-buttons/DecrementButton";
+import IncrementButton from "../ui/drecement-increment-buttons/IncrementButton";
 
 const Cart = () => {
   const cartStore = useCartStore();
@@ -30,9 +30,9 @@ const Cart = () => {
               />
               <h1 className="font-medium">{product.name}</h1>
               <div className="flex gap-2 justify-center items-center bg-black/10 px-2 rounded-sm">
-                <DecrementButton />
+                <DecrementButton product={product} />
                 <h2>{product.quantity}</h2>
-                <IncrementButton />
+                <IncrementButton product={product} />
               </div>
             </div>
           ))}
@@ -47,13 +47,11 @@ const Cart = () => {
               </span>
             </div>
           ) : null}
-          {
-           cartStore.cart.length > 0 ? (
+          {cartStore.cart.length > 0 ? (
             <button className="bg-primary py-2 mt-4 w-full rounded-md text-white">
-                  Checkout
+              Checkout
             </button>
-           ): null
-          }
+          ) : null}
         </div>
       </div>
     </>

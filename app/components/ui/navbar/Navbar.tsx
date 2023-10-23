@@ -59,19 +59,17 @@ const Navbar = () => {
       "
         >
           <div onClick={() => cartStore.toggleCart()}>
-            <BsCart4 size={25} />
+            <BsCart4 size={25} className="cursor-pointer" />
           </div>
           <div>
-            <BsFillBagHeartFill size={25} />
+            <BsFillBagHeartFill size={25} className="cursor-pointer"/>
           </div>
         </div>
         <div className="md:hidden ml-4" onClick={mobileMenuHandler}>
           {!openMobileMenu ? <FiMenu size={25} /> : <MdClose size={25} />}
         </div>
       </div>
-      {
-        !cartStore.isOpen && <Cart />
-      }
+      {!cartStore.isOpen && <Cart />}
     </nav>
   );
 };
