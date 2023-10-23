@@ -1,4 +1,5 @@
 import Product from "./components/product/Product";
+import FrequentAnswrsAndQuestions from "./components/ui/F&Q/FrequentAnswrsAndQuestions";
 import Features from "./components/ui/features/Features";
 import Hero from "./components/ui/header/Hero";
 import Parallax from "./components/ui/parallax/Parallax";
@@ -17,6 +18,7 @@ export default async function Home() {
           <Product {...product} key={product} />
         ))}
       </>
+      <FrequentAnswrsAndQuestions />
     </>
   );
 }
