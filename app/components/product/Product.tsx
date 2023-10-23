@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 
+import AddToCartButton from "../ui/add-to-cart-btn/AddToCartButton";
+import AddToWishlistButton from "../ui/add-to-wishlist-button/AddToWishlistButton";
+
 import { AiFillStar, AiOutlineHeart } from "react-icons/ai";
 import { motion } from "framer-motion";
 
@@ -12,8 +15,12 @@ import image2 from "@/public/productimage2.jpeg";
 import image3 from "@/public/productimage3.jpeg";
 import image4 from "@/public/productimage4.jpeg";
 
-const Product = () => {
+
+const Product = ({name, image, unit_amount, id, description, quantity}) => {
   const [currentImage, setCurrentImage] = useState(0);
+
+  const productData = {name, image, unit_amount, id, description, quantity}
+
   const productImages = [image1, image2, image3, image4];
 
   const imageVariants = {
@@ -76,6 +83,10 @@ const Product = () => {
             of the moon right into your home. With its soft, adjustable
             warm-white and cool-white lighting options
           </p>
+          <div className="flex justify-center items-center gap-5">
+                <AddToCartButton  {...productData}/>
+                <AddToWishlistButton />
+          </div>
         </div>
       </div>
     </section>

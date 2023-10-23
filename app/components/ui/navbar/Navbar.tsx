@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Cart from "../../cart/Cart";
+import { useCartStore } from "@/store/useCartStore";
 
 import { FiMenu } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
@@ -12,6 +14,8 @@ import logo from "@/public/moonlamplogo.png";
 
 const Navbar = () => {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
+
+  const cartStore = useCartStore();
 
   const mobileMenuHandler = () => {
     setOpenMobileMenu(!openMobileMenu);
@@ -54,7 +58,7 @@ const Navbar = () => {
       md:ml-0
       "
         >
-          <div>
+          <div onClick={() => cartStore.toggleCart()}>
             <BsCart4 size={25} />
           </div>
           <div>
@@ -65,6 +69,9 @@ const Navbar = () => {
           {!openMobileMenu ? <FiMenu size={25} /> : <MdClose size={25} />}
         </div>
       </div>
+      {
+        !cartStore.isOpen && <Cart />
+      }
     </nav>
   );
 };
