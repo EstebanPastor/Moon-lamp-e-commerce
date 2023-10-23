@@ -5,7 +5,7 @@ import { useState } from "react";
 import AddToCartButton from "../ui/add-to-cart-btn/AddToCartButton";
 import AddToWishlistButton from "../ui/add-to-wishlist-button/AddToWishlistButton";
 
-import { AiFillStar, AiOutlineHeart } from "react-icons/ai";
+import { AiFillStar } from "react-icons/ai";
 import { motion } from "framer-motion";
 
 import Image from "next/image";
@@ -15,8 +15,9 @@ import image2 from "@/public/productimage2.jpeg";
 import image3 from "@/public/productimage3.jpeg";
 import image4 from "@/public/productimage4.jpeg";
 
+import { ProductType } from "@/types/productType";
 
-const Product = ({name, image, unit_amount, id, description, quantity}) => {
+const Product = ({name, image, unit_amount, id, description, quantity}: ProductType) => {
   const [currentImage, setCurrentImage] = useState(0);
 
   const productData = {name, image, unit_amount, id, description, quantity}

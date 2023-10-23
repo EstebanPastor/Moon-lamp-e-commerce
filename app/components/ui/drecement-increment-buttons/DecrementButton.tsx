@@ -4,7 +4,13 @@ import { useCartStore } from "@/store/useCartStore";
 
 import { BiMinus } from "react-icons/bi";
 
-const DecrementButton = ({ product }) => {
+import { ProductType } from "@/types/productType";
+
+interface DecrementPropTypes {
+  product: ProductType;
+}
+
+const DecrementButton = ({ product }: DecrementPropTypes) => {
   const cartStore = useCartStore();
 
   return (
@@ -20,7 +26,6 @@ const DecrementButton = ({ product }) => {
       }
     >
       <BiMinus />
-
     </button>
   );
 };

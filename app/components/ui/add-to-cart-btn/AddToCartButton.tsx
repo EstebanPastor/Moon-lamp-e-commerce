@@ -2,14 +2,15 @@
 
 import { useCartStore } from "@/store/useCartStore";
 
+import { ProductType } from "@/types/productType";
+
 const AddToCartButton = ({
   name,
   image,
   unit_amount,
   id,
-  description,
   quantity,
-}) => {
+}: ProductType) => {
   const cartStore = useCartStore();
 
   return (
@@ -21,7 +22,7 @@ const AddToCartButton = ({
             image,
             unit_amount,
             id,
-            description,
+
             quantity,
           })
         }

@@ -4,7 +4,13 @@ import { useCartStore } from "@/store/useCartStore";
 
 import { RiAddFill } from "react-icons/ri";
 
-const IncrementButton = ({ product }) => {
+import { ProductType } from "@/types/productType";
+
+interface IncrementPropTypes {
+  product: ProductType;
+}
+
+const IncrementButton = ({ product }: IncrementPropTypes) => {
   const cartStore = useCartStore();
 
   return (
