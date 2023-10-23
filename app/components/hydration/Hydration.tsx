@@ -15,7 +15,7 @@ export default function Hydration({ children }: { children: ReactNode }) {
         <>{children} </>
       ) : (
         <div className="h-screen flex items-center justify-center">
-          <h1 className="text-3xl font-bold text-primary">¡Welcome! We are loading the home page...</h1>
+          <h1 className="text-3xl font-bold text-primary">Redirecting...</h1>
         </div>
       )}
     </>

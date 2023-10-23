@@ -58,11 +58,19 @@ const Navbar = () => {
       md:ml-0
       "
         >
-          <div onClick={() => cartStore.toggleCart()}>
-            <BsCart4 size={25} className="cursor-pointer" />
+          <div
+            className="cursor-pointer relative"
+            onClick={() => cartStore.toggleCart()}
+          >
+            <BsCart4 size={25} className="cursor-pointer relative" />
+            {cartStore.cart.length > 0 && (
+              <span className="bg-primary text-white text-sm font-bold w-4 h-4 rounded-full absolute left-3 bottom-3 flex items-center justify-center">
+                {cartStore.cart.length}
+              </span>
+            )}
           </div>
           <div>
-            <BsFillBagHeartFill size={25} className="cursor-pointer"/>
+            <BsFillBagHeartFill size={25} className="cursor-pointer" />
           </div>
         </div>
         <div className="md:hidden ml-4" onClick={mobileMenuHandler}>
