@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Cart from "../../cart/Cart";
@@ -14,6 +14,7 @@ import logo from "@/public/moonlamplogo.png";
 
 const Navbar = () => {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   const cartStore = useCartStore();
 
@@ -21,34 +22,57 @@ const Navbar = () => {
     setOpenMobileMenu(!openMobileMenu);
   };
 
+  useEffect(() => {
+    if (openMobileMenu) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+  }, [openMobileMenu]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolling(true);
+      } else {
+        setIsScrolling(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <nav className="py-3">
+    <nav className={`py-4 w-full ${isScrolling ? "fixed top-0 bg-white shadow-lg z-10" : "relative"}`}>
       <div className="w-[89%] m-auto flex justify-between items-center max-w-[1400px]">
         <Image src={logo} alt="moon-logo-img" width={200} height={200} />
         <ul
           className={`md:flex items-center gap-8 md:static absolute text-dark ${
             openMobileMenu
-              ? "top-12 py-10 w-full bg-background left-0 text-center space-y-10 text-white font-medium drop-shadow-lg z-10"
+              ? "top-12 py-10 w-full bg-secondary left-0 text-center space-y-10 text-white font-medium drop-shadow-lg z-10"
               : "hidden"
           }`}
         >
           <li>
-            <Link href={"/"} className="font-medium">
+            <Link onClick={() => setOpenMobileMenu(false)} href={"#shop"} className="font-medium">
               Shop
             </Link>
           </li>
           <li>
-            <Link href={"/"} className="font-medium">
-              More info
+            <Link  onClick={() => setOpenMobileMenu(false)}  href={"#features"} className="font-medium">
+              Features
             </Link>
           </li>
           <li>
-            <Link href={"/"} className="font-medium">
+            <Link  onClick={() => setOpenMobileMenu(false)} href={"#faq"} className="font-medium">
               FAQ
             </Link>
           </li>
           <li>
-            <Link href={"/"} className="font-medium">
+            <Link  onClick={() => setOpenMobileMenu(false)} href={"#contact"} className="font-medium">
               Contact US
             </Link>
           </li>

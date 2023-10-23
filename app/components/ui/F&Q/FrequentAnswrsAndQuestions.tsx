@@ -11,7 +11,7 @@ const FrequentAnswrsAndQuestions = () => {
   const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
 
   return (
-    <div className="w-full py-5">
+    <div id="faq" className="w-full py-5">
       <div className="w-[89%] m-auto max-w-[14000px] shadow-md rounded-lg p-8 bg-background">
         <h2 className="text-2xl mb-6 font-semibold">
           Frequently asked questions
