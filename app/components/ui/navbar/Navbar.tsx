@@ -8,13 +8,18 @@ import { useCartStore } from "@/store/useCartStore";
 
 import { FiMenu } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
-import { BsCart4, BsFillBagHeartFill } from "react-icons/bs";
+import { AiOutlineShoppingCart, AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
+("react-icons/bs");
+
+import { UserButton, useUser } from "@clerk/nextjs";
 
 import logo from "@/public/moonlamplogo.png";
 
 const Navbar = () => {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
+
+  const { isSignedIn, user } = useUser();
 
   const cartStore = useCartStore();
 
@@ -46,7 +51,11 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`py-4 w-full ${isScrolling ? "fixed top-0 bg-white shadow-lg z-10" : "relative"}`}>
+    <nav
+      className={`py-4 w-full ${
+        isScrolling ? "fixed top-0 bg-white shadow-lg z-10" : "relative"
+      }`}
+    >
       <div className="w-[89%] m-auto flex justify-between items-center max-w-[1400px]">
         <Image src={logo} alt="moon-logo-img" width={200} height={200} />
         <ul
@@ -57,23 +66,48 @@ const Navbar = () => {
           }`}
         >
           <li>
-            <Link onClick={() => setOpenMobileMenu(false)} href={"#shop"} className="font-medium">
+            <Link
+              onClick={() => setOpenMobileMenu(false)}
+              href={"#shop"}
+              className="font-medium"
+            >
               Shop
             </Link>
           </li>
           <li>
-            <Link  onClick={() => setOpenMobileMenu(false)}  href={"#features"} className="font-medium">
+            <Link
+              onClick={() => setOpenMobileMenu(false)}
+              href={"#features"}
+              className="font-medium"
+            >
               Features
             </Link>
           </li>
           <li>
-            <Link  onClick={() => setOpenMobileMenu(false)} href={"#faq"} className="font-medium">
+            <Link
+              onClick={() => setOpenMobileMenu(false)}
+              href={"#faq"}
+              className="font-medium"
+            >
               FAQ
             </Link>
           </li>
           <li>
-            <Link  onClick={() => setOpenMobileMenu(false)} href={"#contact"} className="font-medium">
+            <Link
+              onClick={() => setOpenMobileMenu(false)}
+              href={"#contact"}
+              className="font-medium"
+            >
               Contact US
+            </Link>
+          </li>
+          <li>
+            <Link
+              onClick={() => setOpenMobileMenu(false)}
+              href={"/"}
+              className="font-medium"
+            >
+              My orders
             </Link>
           </li>
         </ul>
@@ -86,7 +120,10 @@ const Navbar = () => {
             className="cursor-pointer relative"
             onClick={() => cartStore.toggleCart()}
           >
-            <BsCart4 size={25} className="cursor-pointer relative" />
+            <AiOutlineShoppingCart
+              size={25}
+              className="cursor-pointer relative"
+            />
             {cartStore.cart.length > 0 && (
               <span className="bg-primary text-white text-sm font-bold w-4 h-4 rounded-full absolute left-3 bottom-3 flex items-center justify-center">
                 {cartStore.cart.length}
@@ -94,8 +131,17 @@ const Navbar = () => {
             )}
           </div>
           <div>
-            <BsFillBagHeartFill size={25} className="cursor-pointer" />
+            <AiOutlineHeart size={25} className="cursor-pointer" />
           </div>
+          {
+            !isSignedIn ? (
+              <Link href={"/sign-in"}>
+                <AiOutlineUser size={25} className="cursor-pointer" />
+              </Link>
+            ): (
+              <UserButton />
+            )
+          }
         </div>
         <div className="md:hidden ml-4" onClick={mobileMenuHandler}>
           {!openMobileMenu ? <FiMenu size={25} /> : <MdClose size={25} />}

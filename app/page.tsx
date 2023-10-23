@@ -16,7 +16,7 @@ export default async function Home() {
       <Parallax />
       <>
         {products.map((product) => (
-          <Product {...product} key={product} />
+          <Product {...product} key={product.id} />
         ))}
       </>
       <FrequentAnswrsAndQuestions />
