@@ -68,7 +68,7 @@ const Navbar = () => {
           <li>
             <Link
               onClick={() => setOpenMobileMenu(false)}
-              href={"#shop"}
+              href={"/"}
               className="font-medium"
             >
               Shop
@@ -104,7 +104,7 @@ const Navbar = () => {
           <li>
             <Link
               onClick={() => setOpenMobileMenu(false)}
-              href={"/"}
+              href={"/orders"}
               className="font-medium"
             >
               My orders
