@@ -3,21 +3,27 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/utils/prisma";
 import { CartType } from "@/types/cartTypes";
 
-
-
 const stripe = new Stripe(process.env.NEXT_SECRET_PRIVATE_KEY!, {
   apiVersion: "2022-11-15",
 });
 
-const calculateOrderAmount = (items : CartType[]) => {
-  return items.reduce((acc, item) => acc + (item.unit_amount! * item.quantity!), 0);
+const calculateOrderAmount = (items: CartType[]) => {
+  return items.reduce(
+    (acc, item) => acc + item.unit_amount! * item.quantity!,
+    0
+  );
 };
 
-const manageStripePaymentIntent = async (payment_intent_id:string, total:number) => {
+const manageStripePaymentIntent = async (
+  payment_intent_id: string,
+  total: number
+) => {
   if (payment_intent_id) {
-    return await stripe.paymentIntents.update(payment_intent_id, { amount: total });
+    return await stripe.paymentIntents.update(payment_intent_id, {
+      amount: total,
+    });
   }
-  
+
   return await stripe.paymentIntents.create({
     amount: total,
     currency: "usd",
@@ -27,13 +33,18 @@ const manageStripePaymentIntent = async (payment_intent_id:string, total:number)
 
 const manageOrderInDB = async (paymentIntent, userId, total, items) => {
   const existingOrder = await prisma.orders.findUnique({
-    where: { paymentIntentId: paymentIntent.id }
+    where: { paymentIntentId: paymentIntent.id },
   });
 
   if (existingOrder) {
     return await prisma.orders.update({
       where: { paymentIntentId: paymentIntent.id },
-      data: { userId, amount: total, currency: "usd", status: "awaiting payment" }
+      data: {
+        userId,
+        amount: total,
+        currency: "usd",
+        status: "awaiting payment",
+      },
     });
   }
 
@@ -44,35 +55,41 @@ const manageOrderInDB = async (paymentIntent, userId, total, items) => {
       currency: "usd",
       status: "awaiting payment",
       paymentIntentId: paymentIntent.id,
-    }
+    },
   });
 
   for (const item of items) {
     const product = await prisma.product.upsert({
       where: { id: item.id },
       update: { name: item.name, unit_amount: item.unit_amount },
-      create: { id: item.id, name: item.name, unit_amount: item.unit_amount }
+      create: { id: item.id, name: item.name, unit_amount: item.unit_amount },
     });
 
     await prisma.orderProduct.create({
       data: {
         orderId: createdOrder.id,
         productId: product.id,
-        quantity: item.quantity
-      }
+        quantity: item.quantity,
+      },
     });
   }
 
   return createdOrder;
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { items, payment_intent_id, userId } = req.body;
-  
+
   const total = calculateOrderAmount(items);
 
   try {
-    const paymentIntent = await manageStripePaymentIntent(payment_intent_id, total);
+    const paymentIntent = await manageStripePaymentIntent(
+      payment_intent_id,
+      total
+    );
     const order = await manageOrderInDB(paymentIntent, userId, total, items);
 
     return res.status(200).json({ paymentIntent });

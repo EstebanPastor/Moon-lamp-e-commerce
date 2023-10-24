@@ -41,7 +41,7 @@ const Checkout = () => {
           return;
         }
         if (!response.ok) {
-         console.log(response)
+          console.log(response);
         }
         const data = await response.json();
         if (data && data.paymentIntent) {
