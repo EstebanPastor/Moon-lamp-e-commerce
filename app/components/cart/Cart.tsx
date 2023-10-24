@@ -34,7 +34,7 @@ const Cart = () => {
               Back to store
             </button>
             {cartStore.cart.map((product) => (
-              <div className="flex py-4 gap-4 items-center border-b-2 border-b-gray-600 justify-between mb-5  ">
+              <div className="flex lg:flex-row flex-col py-4 gap-4 items-center border-b-2 border-b-gray-600 justify-between mb-5  ">
                 <Image
                   src={product.image}
                   width={150}

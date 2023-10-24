@@ -4,22 +4,30 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Cart from "../../cart/Cart";
+
 import { useCartStore } from "@/store/useCartStore";
+import { useWishlistStore } from "@/store/useWishListStore";
 
 import { FiMenu } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
-import { AiOutlineShoppingCart, AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
+import {
+  AiOutlineShoppingCart,
+  AiOutlineUser,
+  AiOutlineHeart,
+} from "react-icons/ai";
 ("react-icons/bs");
 
 import { UserButton, useUser } from "@clerk/nextjs";
 
 import logo from "@/public/moonlamplogo.png";
+import WishList from "../wishlist/WishList";
 
 const Navbar = () => {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
 
   const { isSignedIn, user } = useUser();
+  const wishListStore = useWishlistStore();
 
   const cartStore = useCartStore();
 
@@ -130,24 +138,23 @@ const Navbar = () => {
               </span>
             )}
           </div>
-          <div>
+          <div onClick={() => wishListStore.toggleWishList()}>
             <AiOutlineHeart size={25} className="cursor-pointer" />
           </div>
-          {
-            !isSignedIn ? (
-              <Link href={"/sign-in"}>
-                <AiOutlineUser size={25} className="cursor-pointer" />
-              </Link>
-            ): (
-              <UserButton />
-            )
-          }
+          {!isSignedIn ? (
+            <Link href={"/sign-in"}>
+              <AiOutlineUser size={25} className="cursor-pointer" />
+            </Link>
+          ) : (
+            <UserButton />
+          )}
         </div>
         <div className="md:hidden ml-4" onClick={mobileMenuHandler}>
           {!openMobileMenu ? <FiMenu size={25} /> : <MdClose size={25} />}
         </div>
       </div>
       {!cartStore.isOpen && <Cart />}
+      {!wishListStore.openWishlist && <WishList />}
     </nav>
   );
 };
